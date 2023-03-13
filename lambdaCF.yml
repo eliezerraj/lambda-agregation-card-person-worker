@@ -1,0 +1,73 @@
+Parameters:
+  S3BucketParam:
+    Type: String 
+    Default: account-a-884069944685-artifacts
+  S3KeyParam:
+    Type: String 
+    Default: lambda-agregation-card-person-worker/main.zip
+  ManagedPolicyParameterOne:
+    Type: String 
+    Default: arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+  ManagedPolicyParameterTwo:
+    Type: String 
+    Default: arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess
+
+Resources:
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      ManagedPolicyArns: 
+        - !Ref ManagedPolicyParameterOne
+        - !Ref ManagedPolicyParameterTwo
+      Policies:
+      - PolicyName: lambda_policy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - "s3:*"
+            Resource: "*"
+          - Effect: Allow
+            Action:
+            - "logs:CreateLogGroup"
+            - "logs:CreateLogStream"
+            - "logs:PutLogEvents"
+            - "logs:PutLogEvents"
+            Resource: "*"
+
+  LambdaFunction: 
+    Type: "AWS::Lambda::Function"
+    Properties: 
+      FunctionName: lambda-agregation-card-person-worker
+      Handler: "main"
+      Role: 
+        Fn::GetAtt: 
+          - "LambdaExecutionRole"
+          - "Arn"
+      Runtime: "go1.x"
+      Code: 
+        S3Bucket: !Ref S3BucketParam
+        S3Key: !Ref S3KeyParam
+  VersionLambda:
+    Type: AWS::Lambda::Version
+    Properties:
+      FunctionName: !Ref LambdaFunction
+      Description: version Live
+  AliasLambda:
+    Type: AWS::Lambda::Alias
+    Properties:
+      FunctionName: !Ref LambdaFunction
+      FunctionVersion: !GetAtt VersionLambda.Version
+      Name: LIVE    
