@@ -13,7 +13,7 @@ import (
 
 )
 
-var childLogger = log.With().Str("repository", "AgregationRepository").Logger()
+var childLogger = log.With().Str("repository", "WorkerAgregationRepository").Logger()
 
 type AgregationRepository struct {
 	client 		dynamodbiface.DynamoDBAPI
@@ -36,4 +36,8 @@ func NewAgregationRepository(tableName string) (*AgregationRepository, error){
 		client: dynamodb.New(awsSession),
 		tableName: aws.String(tableName),
 	},nil
+}
+
+func (r *AgregationRepository) Ping() (bool, error){
+	return true, nil
 }

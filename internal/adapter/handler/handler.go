@@ -50,10 +50,10 @@ func (h *WorkerHandler) EventPerson(event events.CloudWatchEvent) error {
         return erro.ErrUnmarshal
     }
 
-	//response, err := h.agregationService.AddAgregation(agregation)
-	//if err != nil {
-	//	return return erro.ErrUnmarshal
-	//}
+	_, err := h.agregationService.AddPerson(person)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

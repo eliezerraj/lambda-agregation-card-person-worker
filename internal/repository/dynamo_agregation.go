@@ -1,7 +1,6 @@
 package repository
 
 import(
-
 	"github.com/lambda-agregation-card-person-worker/internal/core/domain"
 	"github.com/lambda-agregation-card-person-worker/internal/erro"
 
@@ -10,10 +9,6 @@ import(
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 
 )
-
-func (r *AgregationRepository) Ping() (bool, error){
-	return true, nil
-}
 
 func (r *AgregationRepository) AddAgregation(agregation domain.AgregationCardPerson) (*domain.AgregationCardPerson, error){
 	childLogger.Debug().Msg("AddAgregation")
@@ -88,4 +83,26 @@ func (r *AgregationRepository) GetAgregation(agregation domain.AgregationCardPer
 	} else {
 		return &agregation_result[0], nil
 	}
+}
+
+func (r *AgregationRepository) DeleteAgregation(agregation domain.AgregationCardPerson) (error){
+	childLogger.Debug().Msg("DeleteAgregation")
+
+	key, err := dynamodbattribute.MarshalMap(agregation)
+	if err != nil {
+		childLogger.Error().Err(err).Msg("error message 1")
+		return erro.ErrUnmarshal
+	}
+
+	input_delete := &dynamodb.DeleteItemInput{
+								TableName:  r.tableName,
+								Key:   		key,
+	}
+
+	_, err = r.client.DeleteItem(input_delete)
+	if err != nil {
+		childLogger.Error().Err(err).Msg("error message 2")
+		return erro.ErrDelete
+	}
+	return nil
 }

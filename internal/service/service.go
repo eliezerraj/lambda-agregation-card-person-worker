@@ -8,7 +8,7 @@ import (
 
 )
 
-var childLogger = log.With().Str("service", "AgregationService").Logger()
+var childLogger = log.With().Str("service", "WorkerAgregationService").Logger()
 
 type AgregationService struct {
 	agregationRepository repository.AgregationRepository

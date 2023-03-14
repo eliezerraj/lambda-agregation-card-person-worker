@@ -18,7 +18,7 @@ import(
 var (
 	logLevel		=	zerolog.DebugLevel // InfoLevel DebugLevel
 	tableName		=	"agregation_card_person"
-	version			=	"lambda-agregation-card-person-worker (github) version 1.3"
+	version			=	"lambda-agregation-card-person-worker (github) version 1.4"
 	agregationRepository	*repository.AgregationRepository
 	agregationService		*service.AgregationService
 	workerHandler			*handler.WorkerHandler
@@ -51,7 +51,7 @@ func init() {
 }
 
 func main() {
-	log.Debug().Msg("main lambda-agregation-card-person-worker (go) v 1.0")
+	log.Debug().Msg("main lambda-agregation-card-person-worker (go) v 1.4")
 	log.Debug().Msg("-------------------")
 	log.Debug().Str("version", version).
 				Str("tableName", tableName).
