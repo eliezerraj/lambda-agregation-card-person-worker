@@ -1,0 +1,43 @@
+Parameters:
+  CodeBuilProjectName:
+    Type: String
+  S3BucketParam:
+    Type: String 
+    Default: account-a-884069944685-artifacts
+  S3KeyParam:
+    Type: String 
+    Default: lambda-agregation-card-person-worker/main.zip
+  ManagedPolicyParameterOne:
+    Type: String 
+    Default: arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+  ManagedPolicyParameterTwo:
+    Type: String 
+    Default: arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess
+
+Resources:
+
+  Project:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Ref CodeBuilProjectName
+      Description: !Ref CodeBuilProjectName
+      ServiceRole: !GetAtt ServiceRole.Arn
+      Artifacts:
+        Type: no_artifacts
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/java:openjdk-8
+        EnvironmentVariables:
+        - Name: varName
+          Type: varType
+          Value: varValue
+      Source:
+        Location: codebuild-demo-test/0123ab9a371ebf0187b0fe5614fbb72c
+        Type: S3
+      TimeoutInMinutes: 10
+      Tags:
+        - Key: Key1
+          Value: Value1
+        - Key: Key2
+          Value: Value2
