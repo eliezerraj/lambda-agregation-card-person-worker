@@ -26,7 +26,7 @@ phases:
     commands: 
       - echo BUILD update lambda-function... 
 
-      - echo aws lambda update-function-code --function-name ${FUNCTION_NAME} --s3-bucket ${BUCKET_NAME} --s3-key ${BUCKET_FOLDER_NAME}/main.zip --publish | jq '.Version'
+      - echo aws lambda update-function-code --function-name ${FUNCTION_NAME} --s3-bucket ${BUCKET_NAME} --s3-key ${BUCKET_FOLDER_NAME}/main.zip --publish
       - LAMBDA_NEW_VERSION=$(aws lambda update-function-code --function-name ${FUNCTION_NAME} --s3-bucket ${BUCKET_NAME} --s3-key ${BUCKET_FOLDER_NAME}/main.zip --publish | jq '.Version')
       - echo LAMBDA_NEW_VERSION $LAMBDA_NEW_VERSION 
 
