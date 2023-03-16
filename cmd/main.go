@@ -18,7 +18,9 @@ import(
 var (
 	logLevel		=	zerolog.DebugLevel // InfoLevel DebugLevel
 	tableName		=	"agregation_card_person"
-	version			=	"lambda-agregation-card-person-worker (github) version 1.4"
+	version			=	"lambda-agregation-card-person-worker (github) version 1.5"
+	eventTypePerson =  "personCreated"
+	eventTypeCard 	= 	"cardCreated"
 	agregationRepository	*repository.AgregationRepository
 	agregationService		*service.AgregationService
 	workerHandler			*handler.WorkerHandler
@@ -51,7 +53,7 @@ func init() {
 }
 
 func main() {
-	log.Debug().Msg("main lambda-agregation-card-person-worker (go) v 1.4")
+	log.Debug().Msg("main lambda-agregation-card-person-worker (go) v 1.5")
 	log.Debug().Msg("-------------------")
 	log.Debug().Str("version", version).
 				Str("tableName", tableName).
@@ -75,12 +77,12 @@ func lambdaHandler(ctx context.Context, event events.CloudWatchEvent) ( error) {
 				Msg("----")
 	log.Debug().Msg("-*******************")
 
-	if (event.DetailType == "add-new-card") {
+	if (event.DetailType == eventTypeCard) {
 		err := workerHandler.EventCard(event)
 		if err != nil {
 			return erro.ErrEventDetail
 		}
-	}else if (event.DetailType == "add-new-person") {
+	}else if (event.DetailType == eventTypePerson) {
 		err := workerHandler.EventPerson(event)
 		if err != nil {
 			return erro.ErrEventDetail

@@ -8,6 +8,12 @@ import (
 
 )
 
+var(
+	eventTypeCreated =  "personCreated"
+	eventTypeUpdated = 	"personUpdated"
+	eventTypeDeleted = 	"personDeleted"
+)
+
 func (s *AgregationService) AddCard(card domain.Card) (*domain.Card, error){
 	childLogger.Debug().Msg("AddCard")
 	
