@@ -4,7 +4,7 @@ Parameters:
     Default: account-a-884069944685-artifacts
   S3KeyParam:
     Type: String 
-    Default: lambda-agregation-card-person-worker/main.zip
+    Default: lambda-agr-card-pers-worker/main.zip
   ManagedPolicyParameterOne:
     Type: String 
     Default: arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
