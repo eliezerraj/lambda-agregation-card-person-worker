@@ -6,3 +6,12 @@ aws lambda update-function-code \
 --function-name lambda-agregation-card-person-worker \
 --zip-file fileb:///mnt/c/Eliezer/workspace/github.com/lambda-agregation-card-person-worker/build/main.zip \
 --publish
+
+//------------------------
+
+Worker (no endpoint)
+
+EventBridge (person) ==> Lambda ==> DynamoDB (agregation_card_person)
+EventBridge (card)  ==> Lambda ==> DynamoDB (agregation_card_person)
+
+//-----
